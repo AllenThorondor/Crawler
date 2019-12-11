@@ -1,21 +1,10 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[5]:
-
-
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[152]:
-
-
 from bs4 import BeautifulSoup as BS
 import requests, re, urllib, sqlite3, os, time
 import random
 
-
-# In[153]:
 
 global num_id
 
@@ -26,10 +15,6 @@ ILL_LINK = 3
 WHEELS_SUCC = 1
 WHEELS_GETCONTENTFAIL = 2
 WHEELS_GETURLFAIL = 3
-
-
-# In[154]:
-
 
 class Crawler:
     """
@@ -144,10 +129,7 @@ class Crawler:
         # print("===>len of url_list: ", len(url_list))
         return url_list
 
-
-# In[155]:
-
-
+    
 class Teller:
     """
 
@@ -220,8 +202,6 @@ class Teller:
         return conn
 
 
-# In[156]:
-
 
 class Scheduler:
 
@@ -270,9 +250,6 @@ class Scheduler:
                 self.conn.commit()
 
 
-
-
-# In[157]:
 
 
 def process_core(conn):
@@ -395,7 +372,7 @@ def scrap_to_database():
             pass
         else:
             print("unknown error, stop!")
-# In[159]:
+
 
 
 def insert_to_database():
@@ -410,86 +387,4 @@ def insert_to_database():
     conn, cur = t.db_openup(db_name, table_name)
 
     process(web_count, conn, cur)
-
-
-# In[6]:
-
-
-scrap_to_database()
-
-
-# In[152]:
-
-
-t = Teller()
-url, webcount, db_name = t.customer_service()
-conn = t.db_setup()
-
-
-# In[153]:
-
-
-c = Crawler(url)
-url_list = c.get_url()
-s = Scheduler(conn)
-print(s.new_list)
-s.feed_to_database(url_list)
-s.update_list()
-print(s.new_list)
-
-
-# In[ ]:
-
-
-
-
-
-# In[21]:
-
-
-url_list = ['http://tech.sina.com.cn/csj/2019-10-08/doc-iicezuev0724494.shtml', 'https://tech.sina.com.cn/csj/2019-10-08/doc-iicezuev0707019.shtml', 'http://tech.sina.com.cn/csj/2019-10-08/doc-iicezzrr0757430.shtml', 'http://tech.sina.com.cn/csj/2019-10-08/doc-iicezzrr0799805.shtml', 'http://tech.sina.com.cn/csj/2019-10-08/doc-iicezzrr0808766.shtml', 'https://tech.sina.com.cn/i/2019-10-10/doc-iicezuev1139615.shtml', 'http://tech.sina.com.cn/csj/2019-10-10/doc-iicezzrr1174922.shtml', 'http://tech.sina.com.cn/csj/2019-08-28/doc-ihytcern4093140.shtml', 'http://tech.sina.com.cn/csj/2019-09-20/doc-iicezzrq7102854.shtml', 'http://tech.sina.com.cn/csj/2019-10-08/doc-iicezzrr0697415.shtml', 'http://tech.sina.com.cn/csj/2019-10-09/doc-iicezzrr0852624.shtml', 'http://tech.sina.com.cn/csj/2019-09-06/doc-iicezzrq3832022.shtml', 'http://tech.sina.com.cn/csj/2019-10-09/doc-iicezzrr0980059.shtml', 'https://tech.sina.com.cn/csj/2019-10-09/doc-iicezuev0944897.shtml', 'http://tech.sina.com.cn/csj/2019-10-09/doc-iicezzrr0973869.shtml', 'http://tech.sina.com.cn/csj/2019-09-30/doc-iicezueu9275049.shtml', 'http://tech.sina.com.cn/csj/2019-08-06/doc-ihytcitm7318012.shtml', 'http://tech.sina.com.cn/csj/2019-09-30/doc-iicezzrq9310504.shtml', 'http://tech.sina.com.cn/csj/2019-09-24/doc-iicezueu8093703.shtml', 'https://tech.sina.com.cn/csj/2019-10-10/doc-iicezzrr1330890.shtml', 'http://tech.sina.com.cn/csj/2019-07-22/doc-ihytcerm5337099.shtml', 'http://tech.sina.com.cn/csj/2019-07-26/doc-ihytcitm4734859.shtml', 'http://tech.sina.com.cn/csj/2019-07-26/doc-ihytcitm4726728.shtml', 'http://tech.sina.com.cn/csj/2019-07-26/doc-ihytcitm4696167.shtml', 'http://tech.sina.com.cn/csj/2019-07-26/doc-ihytcitm4695855.shtml', 'http://tech.sina.com.cn/csj/2019-07-25/doc-ihytcitm4645073.shtml', 'http://tech.sina.com.cn/csj/2019-07-26/doc-ihytcerm6339343.shtml', 'http://tech.sina.com.cn/csj/2019-07-26/doc-ihytcerm6298306.shtml', 'http://tech.sina.com.cn/csj/2019-07-26/doc-ihytcerm6341743.shtml', 'http://tech.sina.com.cn/csj/2019-07-26/doc-ihytcerm6337690.shtml', 'http://tech.sina.com.cn/csj/2019-07-26/doc-ihytcitm4728357.shtml', 'http://tech.sina.com.cn/csj/2019-07-26/doc-ihytcitm4750396.shtml', 'http://tech.sina.com.cn/csj/2019-09-24/doc-iicezzrq8060162.shtml', 'http://tech.sina.com.cn/csj/2019-09-06/doc-iicezzrq3839897.shtml', 'http://tech.sina.com.cn/csj/2019-06-10/doc-ihvhiews7840257.shtml', 'http://tech.sina.com.cn/csj/2019-09-06/doc-iicezzrq3927535.shtml', 'http://tech.sina.com.cn/csj/2019-08-01/doc-ihytcitm6089745.shtml', 'http://tech.sina.com.cn/csj/2019-10-08/doc-iicezuev0658519.shtml', 'http://tech.sina.com.cn/csj/2019-10-08/doc-iicezzrr0700255.shtml', 'http://tech.sina.com.cn/csj/2019-10-08/doc-iicezuev0665641.shtml', 'http://tech.sina.com.cn/csj/2019-10-08/doc-iicezuev0655510.shtml', 'http://tech.sina.com.cn/csj/2019-10-08/doc-iicezuev0656326.shtml', 'http://tech.sina.com.cn/csj/2019-09-30/doc-iicezzrq9316750.shtml', 'http://tech.sina.com.cn/csj/2019-09-24/doc-iicezzrq8016826.shtml', 'http://tech.sina.com.cn/csj/2019-09-30/doc-iicezzrq9366341.shtml', 'http://tech.sina.com.cn/csj/2019-09-30/doc-iicezzrq9307119.shtml', 'http://tech.sina.com.cn/csj/2019-09-29/doc-iicezzrq9165053.shtml', 'https://tech.sina.com.cn/csj/2019-09-29/doc-iicezueu9175459.shtml', 'http://tech.sina.com.cn/csj/2019-09-29/doc-iicezueu9224022.shtml', 'http://tech.sina.com.cn/csj/2019-09-30/doc-iicezueu9270564.shtml', 'http://tech.sina.com.cn/csj/2019-09-29/doc-iicezueu9216204.shtml', 'http://tech.sina.com.cn/csj/2019-09-30/doc-iicezueu9301040.shtml', 'http://tech.sina.com.cn/csj/2019-09-30/doc-iicezzrq9333725.shtml', 'http://tech.sina.com.cn/csj/2019-09-22/doc-iicezueu7657140.shtml', 'http://tech.sina.com.cn/csj/2019-10-02/doc-iicezzrq9667864.shtml', 'http://tech.sina.com.cn/csj/2019-10-04/doc-iicezuev0060715.shtml', 'http://tech.sina.com.cn/csj/2019-10-04/doc-iicezzrr0115108.shtml', 'http://tech.sina.com.cn/csj/2019-10-04/doc-iicezzrr0051016.shtml', 'http://tech.sina.com.cn/csj/2019-10-04/doc-iicezzrr0051010.shtml', 'http://tech.sina.com.cn/csj/2019-09-30/doc-iicezzrq9366351.shtml', 'http://tech.sina.com.cn/csj/2019-10-04/doc-iicezzrr0051025.shtml', 'http://tech.sina.com.cn/csj/2019-09-20/doc-iicezzrq7205202.shtml', 'http://tech.sina.com.cn/csj/2019-08-27/doc-ihytcitn2067866.shtml', 'http://tech.sina.com.cn/csj/2019-10-12/doc-iicezzrr1641714.shtml', 'http://tech.sina.com.cn/csj/2019-10-08/doc-iicezuev0652241.shtml', 'http://tech.sina.com.cn/csj/2019-01-22/doc-ihqfskcn9415415.shtml', 'http://tech.sina.com.cn/csj/2019-07-17/doc-ihytcerm4190126.shtml', 'http://tech.sina.com.cn/csj/2019-07-17/doc-ihytcerm4178490.shtml', 'http://tech.sina.com.cn/csj/2019-07-17/doc-ihytcerm4173524.shtml', 'http://tech.sina.com.cn/csj/2019-07-17/doc-ihytcerm4171412.shtml', 'http://tech.sina.com.cn/csj/2019-07-17/doc-ihytcerm4166585.shtml', 'http://tech.sina.com.cn/csj/2019-07-17/doc-ihytcerm4169634.shtml', 'http://tech.sina.com.cn/csj/2019-07-17/doc-ihytcerm4209023.shtml', 'http://tech.sina.com.cn/csj/2019-07-17/doc-ihytcitm2535461.shtml', 'http://tech.sina.com.cn/csj/2019-07-17/doc-ihytcerm4168244.shtml', 'https://tech.sina.com.cn/csj/2019-07-17/doc-ihytcitm2559729.shtml', 'http://tech.sina.com.cn/csj/2019-09-27/doc-iicezzrq8693535.shtml', 'http://tech.sina.com.cn/csj/2019-09-29/doc-iicezueu9088144.shtml', 'http://tech.sina.com.cn/csj/2019-09-29/doc-iicezueu9068748.shtml', 'http://tech.sina.com.cn/csj/2019-09-29/doc-iicezzrq9096917.shtml', 'http://tech.sina.com.cn/csj/2019-09-29/doc-iicezueu9053782.shtml', 'http://tech.sina.com.cn/csj/2019-09-29/doc-iicezueu9051171.shtml', 'http://tech.sina.com.cn/csj/2019-09-29/doc-iicezueu9063427.shtml', 'http://tech.sina.com.cn/csj/2019-08-26/doc-ihytcitn1916148.shtml', 'http://tech.sina.com.cn/csj/2019-09-05/doc-iicezueu3526892.shtml', 'http://tech.sina.com.cn/csj/2019-09-04/doc-iicezzrq3388494.shtml', 'http://tech.sina.com.cn/csj/2019-09-04/doc-iicezzrq3378506.shtml', 'http://tech.sina.com.cn/csj/2019-09-04/doc-iicezzrq3328532.shtml', 'http://tech.sina.com.cn/csj/2019-09-05/doc-iicezzrq3558623.shtml', 'http://tech.sina.com.cn/csj/2019-09-05/doc-iicezzrq3641798.shtml', 'http://tech.sina.com.cn/csj/2019-09-05/doc-iicezzrq3613997.shtml', 'http://tech.sina.com.cn/csj/2019-09-05/doc-iicezueu3530199.shtml', 'http://tech.sina.com.cn/csj/2019-09-05/doc-iicezzrq3560390.shtml', 'http://tech.sina.com.cn/csj/2019-09-05/doc-iicezzrq3611917.shtml', 'http://tech.sina.com.cn/csj/2019-09-05/doc-iicezueu3544760.shtml', 'http://tech.sina.com.cn/csj/2019-09-25/doc-iicezzrq8233069.shtml', 'http://tech.sina.com.cn/csj/2019-09-29/doc-iicezzrq9087262.shtml', 'http://tech.sina.com.cn/csj/2019-09-29/doc-iicezueu9031160.shtml', 'http://tech.sina.com.cn/csj/2019-08-20/doc-ihytcern2093181.shtml', 'http://tech.sina.com.cn/csj/2019-09-27/doc-iicezueu8653001.shtml', 'http://tech.sina.com.cn/csj/2019-09-27/doc-iicezzrq8686396.shtml', 'http://tech.sina.com.cn/csj/2019-09-27/doc-iicezzrq8592191.shtml', 'http://tech.sina.com.cn/csj/2019-09-27/doc-iicezueu8723325.shtml', 'http://tech.sina.com.cn/csj/2019-09-27/doc-iicezzrq8772386.shtml', 'http://tech.sina.com.cn/csj/2019-09-27/doc-iicezzrq8728500.shtml', 'http://tech.sina.com.cn/csj/2019-09-12/doc-iicezzrq5268399.shtml', 'http://tech.sina.com.cn/csj/2019-09-26/doc-iicezueu8504958.shtml', 'http://tech.sina.com.cn/csj/2019-09-26/doc-iicezzrq8508646.shtml', 'http://tech.sina.com.cn/csj/2019-09-26/doc-iicezzrq8495386.shtml', 'http://tech.sina.com.cn/csj/2019-09-26/doc-iicezueu8580564.shtml', 'http://tech.sina.com.cn/csj/2019-09-26/doc-iicezueu8462159.shtml', 'http://tech.sina.com.cn/csj/2019-09-26/doc-iicezueu8570994.shtml', 'http://tech.sina.com.cn/csj/2019-09-27/doc-iicezzrq8692846.shtml', 'http://tech.sina.com.cn/csj/2019-09-26/doc-iicezzrq8535234.shtml', 'http://tech.sina.com.cn/csj/2019-09-26/doc-iicezzrq8489614.shtml', 'http://tech.sina.com.cn/csj/2019-04-03/doc-ihsxncvh7861275.shtml', 'http://tech.sina.com.cn/csj/2019-09-19/doc-iicezzrq6853090.shtml', 'http://tech.sina.com.cn/csj/2019-08-26/doc-ihytcitn1909411.shtml', 'http://tech.sina.com.cn/csj/2019-09-21/doc-iicezueu7391028.shtml', 'http://tech.sina.com.cn/csj/2019-09-26/doc-iicezueu8431070.shtml', 'http://tech.sina.com.cn/csj/2019-09-10/doc-iicezzrq4837027.shtml', 'http://tech.sina.com.cn/csj/2019-09-25/doc-iicezzrq8282023.shtml', 'http://tech.sina.com.cn/csj/2019-07-02/doc-ihytcerm0806998.shtml', 'http://tech.sina.com.cn/csj/2019-09-03/doc-iicezueu2994799.shtml', 'http://tech.sina.com.cn/csj/2019-09-03/doc-iicezzrq3031279.shtml', 'http://tech.sina.com.cn/csj/2019-09-02/doc-iicezzrq2901786.shtml', 'http://tech.sina.com.cn/csj/2019-09-02/doc-iicezueu2832413.shtml', 'http://tech.sina.com.cn/csj/2019-09-03/doc-iicezzrq3029750.shtml', 'http://tech.sina.com.cn/csj/2019-09-03/doc-iicezzrq3043714.shtml', 'http://tech.sina.com.cn/csj/2019-09-03/doc-iicezueu2998362.shtml', 'http://tech.sina.com.cn/csj/2019-09-03/doc-iicezzrq3038258.shtml', 'http://tech.sina.com.cn/csj/2019-09-02/doc-iicezueu2901143.shtml', 'http://tech.sina.com.cn/csj/2019-09-19/doc-iicezzrq6900805.shtml', 'http://tech.sina.com.cn/csj/2019-09-18/doc-iicezueu6668437.shtml', 'http://tech.sina.com.cn/csj/2019-10-08/doc-iicezuev0707019.shtml', 'http://tech.sina.com.cn/csj/2019-10-08/doc-iicezuev0653240.shtml', 'http://tech.sina.com.cn/csj/2019-10-08/doc-iicezzrr0694624.shtml', 'http://tech.sina.com.cn/csj/2019-10-08/doc-iicezuev0644333.shtml']
-
-
-# In[22]:
-
-
-for link in url_list:
-    print(link)
-
-
-# In[24]:
-
-
-print(len(url_list))
-
-
-# In[40]:
-
-
-t = Teller()
-conn = t.db_openup("godgod")
-
-
-# In[50]:
-
-
-cur = conn.cursor()
-cur.execute("SELECT url FROM URLs WHERE label =?",(1,))
-print(cur.fetchone())
-lst1 = list()
-for link in cur:
-    if link[0] not in url_list:
-        print(link[0])      
-
-
-# In[45]:
-
-
-
-
-
-# In[ ]:
-
-
-
 
