@@ -129,7 +129,7 @@ class Crawler:
         # print("===>len of url_list: ", len(url_list))
         return url_list
 
-    
+
 class Teller:
     """
 
@@ -229,11 +229,11 @@ class Scheduler:
 
         cur.execute('''SELECT url FROM URLs WHERE label =?''',(NEW_LINK,))
         for item in cur:
-            if self.xiaoshabi(item):
+            if self.check_duplicate(item):
                 self.new_list.append(item[0])
 
 
-    def xiaoshabi(self, url):
+    def check_duplicate(self, url):
         """
         feature: cleaner keep a list of retrieved_link and ill_link, and return True if url if not in two list, return false otherwise
         """
@@ -245,7 +245,7 @@ class Scheduler:
     def feed_to_database(self, url_list):
         cur = self.conn.cursor()
         for url in url_list:
-            if self.xiaoshabi(url):
+            if self.check_duplicate(url):
                 cur.execute('INSERT OR IGNORE INTO URLs(url, label) VALUES(?, ?)',(url, NEW_LINK))
                 self.conn.commit()
 
@@ -254,7 +254,7 @@ class Scheduler:
 
 def process_core(conn):
     global num_id
-    
+
     s = Scheduler(conn)
     s.update_list()
     count = 0
@@ -270,7 +270,7 @@ def process_core(conn):
             conn.commit()
             count += 1
         elif status == WHEELS_GETURLFAIL:
-            # page already retrieved, try other pages 
+            # page already retrieved, try other pages
             cur.execute('''UPDATE URLs SET label=? WHERE url=?''', (RETRIEVED_LINK, url))
             conn.commit()
             num_id += 1
@@ -280,8 +280,8 @@ def process_core(conn):
             print("current list of loop: ", len(s.new_list), s.new_list)
             break
     print("completed ", len(s.new_list), "urls, review details:", s.new_list)
-    
-    if count > len(s.new_list):  
+
+    if count > len(s.new_list):
         return 0
     else:
         return 1
@@ -289,11 +289,11 @@ def process_core(conn):
 
 def wheels(url, conn):
     """
-    input:  url should not contained in the database, 
+    input:  url should not contained in the database,
             num_id should fetch from latest 'Pages' id label
             conn normal
     """
-    
+
     gap = random.random() * 10
     time.sleep(gap)
     c1 = Crawler(url)
@@ -306,7 +306,7 @@ def wheels(url, conn):
         print("wheels: ", url, "get title or image or content fail")
         # cur.execute('''UPDATE URLs SET label=? WHERE url=?''', (ILL_LINK, url))
         return WHEELS_GETCONTENTFAIL
-    
+
     if len(content) > 200:
         cur.execute('INSERT OR IGNORE INTO Pages (id, url, html, img, title) VALUES(?, ?, ?, ?, ?)',(num_id, url, content, image, title))
         cur.execute('''UPDATE URLs SET label=? WHERE url=?''', (RETRIEVED_LINK, url))
@@ -314,7 +314,7 @@ def wheels(url, conn):
     else:
         cur.execute('UPDATE URLs SET label=? WHERE url=?',(ILL_LINK, url))
         print("content is less than 200, pass")
-    
+
     try:
         url_list = c1.get_url()
         cur.execute("""SELECT url from URLs""")
@@ -329,7 +329,7 @@ def wheels(url, conn):
         if len(pure_list) < 1:
             print("no new link to insert")
             return WHEELS_GETURLFAIL
-        
+
         s1 = Scheduler(conn)
         s1.feed_to_database(pure_list)
         print("===>len of pure_list", len(pure_list))
@@ -345,7 +345,7 @@ def wheels(url, conn):
 
 def scrap_to_database():
     global num_id
-    
+
     num_id = 0
     t = Teller()
     url, web_count, DB_name = t.customer_service()
@@ -359,9 +359,9 @@ def scrap_to_database():
     del s
 
     while True:
-        
+
         flag = process_core(conn)
-        
+
         if flag == 0:
             print("over loop!")
             break
@@ -387,4 +387,3 @@ def insert_to_database():
     conn, cur = t.db_openup(db_name, table_name)
 
     process(web_count, conn, cur)
-
