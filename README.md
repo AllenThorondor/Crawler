@@ -21,7 +21,7 @@ Crawler object with functions
      [1]: https://www.babynames.com/name	"the content source website for crawling"
      [2]: https://www.behindthename.com/name	"the figure data source"
 
-     
+     I have done some code on this , and it works just good
 
   2. to create a database for the data that been scraped, the table structure is some kind of tricky job.
 
