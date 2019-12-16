@@ -108,24 +108,6 @@ To be done
 
 
 
-## Study list:
-
-1. Learn matplotlib quickly and learn the real time part carefully (done 5 / 10)
-   1. completed line and bar plot, next is pie chart
-   2. will keep going on pie charts tonight (done ☻ )
-2. Learn the NumPy as fundemental bases for Matplotlib , now we have the Indian guy video and the study material from 400 coder camp as well. try to learn it as soon as possible (1 / 3)
-   1. india guy video (not start yet)
-   2. 400 coder material (numpy part is awesome) (5 / 10)
-   3. Refresh the pandas method :
-      1. Best practice video on data school from Kevin Markham (0 / 10) 
-      2. and also the "theEngineeringWorld" channel, a good one (0 / 10)
-3. Concurrency program for python, learning material fron 400 coder first, find more on YouTube 
-4. Coery Schafer's flask tutorial (what is this thing doing) ( 0 / 15)
-5. Djangle learning for blog setup , and we should have this done after matplotlib is done, and keep it rolling while doing other things, maybe 1 or 2 hrs per day is good.(0 / 17)
-6. now I think maybe one day make a list of to-dos I will be really efficient about it
-7. http requests implement video <Python Requests from Pypro(YouTube channel)> (12/ 12)
-   1. I think this is a really good video about http requests package and the http related knowledge
-
 
 
 
