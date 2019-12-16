@@ -1,8 +1,9 @@
 # Crawler
 Crawler object with functions
-## done:
-* 1  add in class like scrawler, teller, scheduler 
-* 2  define core function such as process_core and wheels
+## to be done:
+* when update the database, the num_id should fetch from the latest database (done)
+* to stop scraping right when the count hit the limit (20191216)
+* good looking action need to be done also
 
 ## planed features:
 * 1  got the email extension for notification of process completed.
@@ -29,13 +30,9 @@ Crawler object with functions
      2. the "rating" from behind the name
      3. store the figure data scraped from the behind the name
   
-* add proxy and header function for crawler class. proxy may need to scrap the website
+* 3  add proxy and header function for crawler class. proxy may need to scrap the website
 
-## bug to fix
-
-1. when update the database, the num_id should fetch from the latest database
-2. to stop scraping right when the count hit the limit
-3. NA
+## 
 
 ## Code structure:
 
@@ -126,7 +123,7 @@ To be done
 4. Coery Schafer's flask tutorial (what is this thing doing) ( 0 / 15)
 5. Djangle learning for blog setup , and we should have this done after matplotlib is done, and keep it rolling while doing other things, maybe 1 or 2 hrs per day is good.(0 / 17)
 6. now I think maybe one day make a list of to-dos I will be really efficient about it
-7. http requests implement video <Python Requests from Pypro(YouTube channel)> (1 / 12)
+7. http requests implement video <Python Requests from Pypro(YouTube channel)> (12/ 12)
    1. I think this is a really good video about http requests package and the http related knowledge
 
 

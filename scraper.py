@@ -143,7 +143,8 @@ class Teller:
 
     def customer_service(self):
         """
-        input: no input should give to an teller object, cause she will ask what she need in interaction
+        input: no input should give to an teller object, cause she will ask what
+        she need in interaction
         output: self.url, self.web_site_count, self.DB_name
 
         feature: teller can only create table , but can not muse data in that table
@@ -235,7 +236,8 @@ class Scheduler:
 
     def check_duplicate(self, url):
         """
-        feature: cleaner keep a list of retrieved_link and ill_link, and return True if url if not in two list, return false otherwise
+        feature: cleaner keep a list of retrieved_link and ill_link, and return
+        True if url if not in two list, return false otherwise
         """
         if (url in self.retrieved_list) or (url in self.ill_list):
             return False
@@ -246,7 +248,8 @@ class Scheduler:
         cur = self.conn.cursor()
         for url in url_list:
             if self.check_duplicate(url):
-                cur.execute('INSERT OR IGNORE INTO URLs(url, label) VALUES(?, ?)',(url, NEW_LINK))
+                cur.execute('INSERT OR IGNORE INTO URLs(url, label) VALUES(?, ?)',
+                (url, NEW_LINK))
                 self.conn.commit()
 
 
@@ -343,7 +346,7 @@ def wheels(url, conn):
     return WHEELS_SUCC
 
 
-def scrap_to_database():
+def scrap_to_new_database():
     global num_id
 
     num_id = 0
@@ -375,15 +378,33 @@ def scrap_to_database():
 
 
 
-def insert_to_database():
+def update_existed_database():
     """
     feature: insert data to already existed database and table
     """
+    global num_id
 
     t = Teller()
-    db_name = input("input database name: ")
-    table_name = input("input table name: ")
-    web_count = input("input the web_count: ")
-    conn, cur = t.db_openup(db_name, table_name)
+    url, web_count, DB_name = t.customer_service()
+    conn = t.db_openup(DB_name)
 
-    process(web_count, conn, cur)
+    cur = conn.cursor()
+    cur.execute("""SELECT id FROM Pages ORDER BY id DESC LIMIT 0, 1""")
+    num_id = cur.fetchone()[0]
+
+    while True:
+
+        flag = process_core(conn)
+
+        if flag == 0:
+            print("over loop!")
+            break
+        elif num_id > web_count - 1:
+            print("mission completed")
+            break
+        elif flag == 1:
+            pass
+        else:
+            print("unknown error, stop!")
+
+update_existed_database()
