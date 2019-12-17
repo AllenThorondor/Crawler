@@ -16,6 +16,9 @@ WHEELS_SUCC = 1
 WHEELS_GETCONTENTFAIL = 2
 WHEELS_GETURLFAIL = 3
 
+PROCESS_COMPLETED = 0
+PROCESS_INTERRUPTED = 1
+
 class Crawler:
     """
     method:
@@ -255,14 +258,17 @@ class Scheduler:
 
 
 
-def process_core(conn):
+def process_core(conn, t):
     global num_id
 
     s = Scheduler(conn)
     s.update_list()
     count = 0
+    cur = conn.cursor()
     for url in s.new_list:
-        cur = conn.cursor()
+
+        if count > int(t.web_site_count) - 1:
+            return PROCESS_COMPLETED
         print("### num_id = ", num_id)
         status = wheels(url, conn)
         if status == WHEELS_SUCC:
@@ -281,13 +287,11 @@ def process_core(conn):
         else:
             print("stack at this url: ", url)
             print("current list of loop: ", len(s.new_list), s.new_list)
-            break
+            return PROCESS_INTERRUPTED
+
+
     print("completed ", len(s.new_list), "urls, review details:", s.new_list)
 
-    if count > len(s.new_list):
-        return 0
-    else:
-        return 1
 
 
 def wheels(url, conn):
@@ -363,19 +367,16 @@ def scrap_to_new_database():
 
     while True:
 
-        flag = process_core(conn)
+        flag = process_core(conn, t)
 
-        if flag == 0:
-            print("over loop!")
+        if flag == PROCESS_COMPLETED:
+            print("task done!")
             break
-        elif num_id > web_count - 1:
-            print("mission completed")
+        elif flag == PROCESS_INTERRUPTED:
+            print("process interrupted")
             break
-        elif flag == 1:
-            pass
         else:
             print("unknown error, stop!")
-
 
 
 def update_existed_database():
@@ -394,16 +395,13 @@ def update_existed_database():
 
     while True:
 
-        flag = process_core(conn)
+        flag = process_core(conn, t)
 
-        if flag == 0:
-            print("over loop!")
+        if flag == PROCESS_COMPLETED:
+            print("task done!")
             break
-        elif num_id > web_count - 1:
-            print("mission completed")
+        elif flag == PROCESS_INTERRUPTED:
             break
-        elif flag == 1:
-            pass
         else:
             print("unknown error, stop!")
 

@@ -2,8 +2,9 @@
 Crawler object with functions
 ## to be done:
 * when update the database, the num_id should fetch from the latest database (done)
-* to stop scraping right when the count hit the limit (20191216)
-* good looking action need to be done also
+* to stop scraping right when the count hit the limit (done)
+* good looking action need to be done also(20191217)
+* add in time fucntion in scheduler, to decide when to run the code and to run which function (20191218)
 
 ## planed features:
 * 1  got the email extension for notification of process completed.
