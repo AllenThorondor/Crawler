@@ -57,13 +57,13 @@ class Crawler:
         tags = self.soup('img')
         img_link_list = list()
         temp_img = "temp_img"
-        print("    img to retrive:",max_img)
+        print("Crawler: img to retrive:",max_img)
 
         for tag in tags:
             imglink = re.findall('src="(.+?\.jpg)"', str(tag))
             if imglink != '':
                 img_link_list.extend(imglink)
-        print("    total img link in page:",len(img_link_list))
+        print("Crawler: total img link in page:",len(img_link_list))
 
         if max_img == 1:
             if str(img_link_list[0]).startswith("http"):
@@ -96,10 +96,10 @@ class Crawler:
                 if not save:
                     os.remove('{}.jpg'.format(temp_img+str(i)))
                 img_list.append(img)
-            print("    Done, image save:", save)
+            print("Crawler: Done, image save:", save)
             return img_list
         else:
-            print("    image quantity limit:", len(img_link_list))
+            print("Crawler: image quantity limit:", len(img_link_list))
             return None
 
     def get_content(self):
@@ -112,7 +112,7 @@ class Crawler:
                     x = tag.text
                     content = content + '\n' + x
                 except:
-                    print("    get_content", tag, "is something wrong")
+                    print("Crawler: get_content", tag, "is something wrong")
                     continue
         return content
 
@@ -129,7 +129,7 @@ class Crawler:
             if ( url != "") and ( str(url).startswith('javascript:') == False):
                 if str(url).endswith("html"):
                     url_list.append(url)
-        # print("===>len of url_list: ", len(url_list))
+        print("Crawler: length of url_list: ", len(url_list))
         return url_list
 
 
@@ -164,9 +164,9 @@ class Teller:
         if len(self.web_site_count) <= 0 or self.web_site_count == 0:
             self.web_site_count = 100
         elif not str(self.web_site_count).isdigit():
-            print("digital number is needed for this input")
+            print("Teller: digital number is needed for this input")
             self.web_site_count = input("the limit of webs: ")
-        print("the url: ", self.url,"\nthe web count: ", self.web_site_count)
+        print("Teller: Target Url: ", self.url,"\nTarget web count: ", self.web_site_count)
 
         #Database name to create
         self.DB_name = input("database name: ") + ".sqlite"
@@ -184,7 +184,7 @@ class Teller:
         conn = sqlite3.connect('{}'.format(self.DB_name))
         cur = conn.cursor()
         cur.execute('CREATE TABLE URLs(url TEXT UNIQUE, label INTEGER)')
-        print('database connected, ready for operation')
+        print('Teller: database connected, ready for operation')
 
         #create database work space 'Pages'
         cur.execute('''CREATE TABLE IF NOT EXISTS Pages
@@ -269,7 +269,7 @@ def process_core(conn, t):
 
         if count > int(t.web_site_count) - 1:
             return PROCESS_COMPLETED
-        print("### num_id = ", num_id)
+        print("###process num_id = ", num_id)
         status = wheels(url, conn)
         if status == WHEELS_SUCC:
             num_id += 1
@@ -285,12 +285,12 @@ def process_core(conn, t):
             num_id += 1
             count += 1
         else:
-            print("stack at this url: ", url)
-            print("current list of loop: ", len(s.new_list), s.new_list)
+            print("process: stack at this url: ", url)
+            print("process: current list of loop: ", len(s.new_list), s.new_list)
             return PROCESS_INTERRUPTED
 
 
-    print("completed ", len(s.new_list), "urls, review details:", s.new_list)
+    print("process: completed ", len(s.new_list), "urls, review details:", s.new_list)
 
 
 
@@ -320,7 +320,7 @@ def wheels(url, conn):
         conn.commit()
     else:
         cur.execute('UPDATE URLs SET label=? WHERE url=?',(ILL_LINK, url))
-        print("content is less than 200, pass")
+        print("wheels: content is less than 200, pass")
 
     try:
         url_list = c1.get_url()
@@ -329,17 +329,17 @@ def wheels(url, conn):
         pure_list = list()
         for link in cur:
             exist_list.append(link[0])
-        print("===>len of exist_list: ",len(exist_list))
+        print("wheels: len of exist_list: ",len(exist_list))
         for url in url_list:
             if url not in exist_list:
                 pure_list.append(url)
         if len(pure_list) < 1:
-            print("no new link to insert")
+            print("wheels: no new link to insert")
             return WHEELS_GETURLFAIL
 
         s1 = Scheduler(conn)
         s1.feed_to_database(pure_list)
-        print("===>len of pure_list", len(pure_list))
+        print("wheels: len of pure_list", len(pure_list))
         del s1
     except:
         # cur.execute('''UPDATE URLs SET label=? WHERE url=?''', (ILL_LINK, url))
@@ -405,4 +405,4 @@ def update_existed_database():
         else:
             print("unknown error, stop!")
 
-update_existed_database()
+scrap_to_new_database()
