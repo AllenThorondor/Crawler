@@ -405,4 +405,4 @@ def update_existed_database():
         else:
             print("unknown error, stop!")
 
-scrap_to_new_database()
+# scrap_to_new_database()
